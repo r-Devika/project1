@@ -10,8 +10,8 @@ app.use(cors());
 app.use(bodyparser.json());
 
 
-app.listen('8005',()=>{
-    console.log('server is running on port 8005....');
+app.listen('8080',()=>{
+    console.log('server is running on port 8080....');
 })
 
 
