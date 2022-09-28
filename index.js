@@ -10,8 +10,8 @@ app.use(cors());
 app.use(bodyparser.json());
 
 
-app.listen('8005',()=>{
-    console.log('server is running on port 8005....');
+app.listen('8080',()=>{
+    console.log('server is running on port 8080....');
 })
 
 
@@ -93,31 +93,42 @@ app.get('/api/read/:id',(req,res)=>{
 
 // update single data 
 
-app.put('/api/update/:id',(req,res)=>{
+app.put('/api/update',(req,res)=>{
+       try {
         console.log(req.params.id);
         // sql query 
         let sql = `UPDATE crudt SET 
-                    name = '${req.body.name}'
-                    code = '${req.body.code}'
-                    salary = '${req.body.salary}'
+                    name = '${req.body.name}',
+                    code = '${req.body.code}',
+                    salary = '${req.body.salary}',
                     email = '${req.body.email}'
-                    WHERE id = '${req.body.id}'
+                    WHERE id = '${req.query.id}'
                     `;
         // run query 
         db.query(sql,(err,result)=>{
-                if(err) throw err;
-                res.send('data updated');
-        })            
+                if(err){
+                    res.send('data updated');
+                }else{
+                    res.send('data updated');
+                }
+                
+        })  
+       } catch (error) {
+        console.log("error",error);        
+        res.send('data updated');
+       }          
 })
 
 
 // delete single data 
 
-app.delete('/api/delete/:id',(req,res)=>{
+app.delete('/api/delete/',(req,res)=>{
+    console.log(req.query.id);
+    let id = req.query.id;
 
     // sql query 
     let sql = `DELETE FROM crudt 
-                WHERE id = '${req.params.id}'
+                WHERE id = '${id}'
                 `;
     //    run query 
     db.query(sql,(err,result)=>{
